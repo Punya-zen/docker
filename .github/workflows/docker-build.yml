@@ -1,4 +1,4 @@
-name: Build and Push React Image to Docker Hub
+name: Build and Push React Image
 
 on:
   push:
