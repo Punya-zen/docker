@@ -21,11 +21,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t react-app .
+          docker build -t react-app:latest
 
       - name: Tag Docker image
         run: |
-          docker tag react-app ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+          docker tag react-app:latest ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
       - name: Push Docker image
         run: |
