@@ -16,7 +16,8 @@ jobs:
 
       - name: Login to Docker Hub
         run: |
-          echo "Punya@123" | docker login -u "Punyasc" --password-stdin
+          # Using Docker Hub access token instead of password
+          echo "dckr_pat_y5clDENWMm9KepoE6_hyOsVvTG4" | docker login -u "punyasc" --password-stdin
 
       - name: Build Docker image
         run: |
@@ -24,10 +25,9 @@ jobs:
 
       - name: Tag Docker image
         run: |
-          # Correct format: USERNAME/IMAGE:TAG
-          docker tag react-app:latest Punyasc/react-app:latest
+          # Correct tag format: USERNAME/IMAGE:TAG
+          docker tag react-app:latest punyasc/react-app:latest
 
       - name: Push Docker image
         run: |
-          docker push Punyasc/react-app:latest
-
+          docker push punyasc/react-app:latest
