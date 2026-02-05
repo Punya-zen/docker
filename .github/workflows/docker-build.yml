@@ -25,9 +25,9 @@ jobs:
 
       - name: Tag Docker image
         run: |
-          docker tag react-app:latest ${{ secrets.DOCKER_PUNYASC }}/react-app:latest
+          # Make sure DOCKER_USERNAME secret is set to your Docker Hub username
+          docker tag react-app:latest ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_PUNYASC }}/react-app:latest
-
+          docker push ${{ secrets.DOCKER_USERNAME }}/react-app:latest
