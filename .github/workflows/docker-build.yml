@@ -1,4 +1,4 @@
-name: Deploy React to Azure
+name: Build and Deploy to Azure
 
 on:
   push:
@@ -20,7 +20,16 @@ jobs:
         run: |
           az acr login --name zenpocacr
 
-      - name: Build & Push Image
+      - name: Build and Push Image
         run: |
-          docker build -t zenpocacr.azurecr.io/react-app:${{ github.sha }} .
-          docker push zenpocacr.azurecr.io/react-app:${{ github.sha }}
+          # Build with the dynamic tag v${{ github.run_number }}
+          docker build -t zenpocacr.azurecr.io/react-app:v${{ github.run_number }} .
+          docker push zenpocacr.azurecr.io/react-app:v${{ github.run_number }}
+
+      - name: Update Container App
+        run: |
+          # This command tells your Container App to use the new image version
+          az containerapp update \
+            --name my-react-front-end \
+            --resource-group ZenPOC \
+            --image zenpocacr.azurecr.io/react-app:v${{ github.run_number }}
