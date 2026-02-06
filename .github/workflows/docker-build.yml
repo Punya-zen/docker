@@ -30,6 +30,6 @@ jobs:
         run: |
           # This command tells your Container App to use the new image version
           az containerapp update \
-            --name my-react-App \
+            --name zenpoc-punya-capp \
             --resource-group ZenPOC \
             --image zenpocacr.azurecr.io/react-app:v${{ github.run_number }}
