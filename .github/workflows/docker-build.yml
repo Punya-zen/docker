@@ -1,33 +1,26 @@
-name: Build and Push React Docker Image
+name: Deploy React to Azure
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
+    branches: [ "main" ]
 
 jobs:
-  docker:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Login to Docker Hub
-        run: |
-          # Using Docker Hub access token instead of password
-          echo "dckr_pat_QptuF--8gX_zW_GiqfBu_jDoDbI" | docker login -u "punyasc" --password-stdin
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Build Docker image
+      - name: Login to ACR
         run: |
-          docker build -t react-app:latest .
+          az acr login --name zenpocacr
 
-      - name: Tag Docker image
+      - name: Build & Push Image
         run: |
-          # Correct tag format: USERNAME/IMAGE:TAG
-          docker tag react-app:latest punyasc/react-app:latest
-
-      - name: Push Docker image
-        run: |
-          docker push punyasc/react-app:latest
+          docker build -t zenpocacr.azurecr.io/react-app:${{ github.sha }} .
+          docker push zenpocacr.azurecr.io/react-app:${{ github.sha }}
